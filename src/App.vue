@@ -1,31 +1,28 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+  <div class="app">
+    <van-nav-bar title="轻音少女" left-text="返回" left-arrow @click-left="onClickLeft" />
+    <router-view></router-view>
+    <van-tabbar v-model="active">
+      <van-tabbar-item icon="home-o" to="/home">home</van-tabbar-item>
+      <van-tabbar-item icon="friends-o" to="/friends">friends</van-tabbar-item>
+      <van-tabbar-item icon="shopping-cart-o" to="/cart" info="5">cart</van-tabbar-item>
+      <van-tabbar-item icon="search" to="/search">search</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
+<script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+export default {
+  data: () => ({
+    active: 0
+  }),
+  created () {},
+  methods: {
+    onClickLeft () {
+      console.log('left')
+    }
+  }
 }
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+</script>
+<style lang="less" scoped>
 </style>
