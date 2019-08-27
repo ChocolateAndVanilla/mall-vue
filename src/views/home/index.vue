@@ -8,7 +8,7 @@
         </van-swipe>
         <!-- <Grid></Grid> -->
         <van-grid :column-num="3" class="my-grid">
-            <van-grid-item v-for="grid in grids" :key="grid.id" :text="grid.title" props="grid">
+            <van-grid-item v-for="grid in grids" :key="grid.id" :text="grid.title" props="grid" :to="grid.to">
                 <template slot="icon">
                     <img :src="grid.src" alt="">
                 </template>
