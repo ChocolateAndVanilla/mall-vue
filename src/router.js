@@ -8,6 +8,8 @@ import Cart from '@/views/cart'
 import Search from '@/views/search'
 import Newslist from '@/views/home/news/newslist'
 import Newsinfo from '@/views/home/news/newsinfo'
+import PhotoList from '@/views/home/photos/photolist'
+import PhotoInfo from '@/views/home/photos/photoinfo'
 
 Vue.use(Router)
 
@@ -36,6 +38,14 @@ export default new Router({
     {
       path: '/home/newsinfo/:id',
       component: Newsinfo
+    },
+    {
+      path: '/home/photolist',
+      component: PhotoList
+    },
+    {
+      path: '/home/photoinfo/:id',
+      component: PhotoInfo
     }
     // {
     //   path: '/about',

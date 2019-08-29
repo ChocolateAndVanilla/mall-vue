@@ -1,19 +1,22 @@
 <template>
-    <div class="newsinfo">
-      <!-- title content -->
-        <div class="newsinfo-header">
-          <van-card  :title="news.title">
-              <div slot="price">
-                  <span class="add_time">发表时间:{{news.add_time}}</span>
-              </div>
-              <div slot="num">
-                  <span>点击次数:{{news.click}}</span>
-              </div>
-          </van-card>
-          <hr />
-          <div class="newsinfo-content">
-              {{news.content}}
-          </div>
+    <div class="photoinfo">
+        <van-card  :title="imgs.title">
+            <div slot="price">
+                <span class="add_time">发表时间:{{imgs.add_time}}</span>
+            </div>
+            <div slot="num">
+                <span>点击次数:{{imgs.click}}</span>
+            </div>
+        </van-card>
+        <hr />
+        <div class="imgs-box">
+            <div class="imgs-thum">
+                <img :src="thum" alt v-for="(thum,index) in thums" :key="thum" @click="showImg(index)">
+                <!-- <div @click="showImg">图片预览</div> -->
+            </div>
+            <p class="desc">
+                {{imgs.content}}
+            </p>
         </div>
 
         <!-- 评论组件 -->
@@ -25,27 +28,48 @@
 
 <script>
 import Comment from '@/components/comment'
+
 export default {
   data: () => ({
     id: '',
-    news: {},
-    pageindex: 1,
+    imgs: {},
+    thums: [],
     comments: [],
-    limit: 2,
-    hasFlag: false
+    hasFlag: false,
+    pageindex: 1,
+    limit: 2
   }),
   created () {
     this.id = this.$route.params.id
-    this.getNewsInfo()
+    this.getImgs()
+    this.getThumImages()
     this.getComments()
   },
   methods: {
-    async getNewsInfo () {
-      const { data: { message, status } } = await this.$http.get(`api/getnew/${this.id}`)
-
+    async getImgs () {
+      const {
+        data: { status, message }
+      } = await this.$http.get(`/api/getimageInfo/${this.id}`)
       if (status !== 0) return this.$Toast(message)
-      this.news = message
+      this.imgs = message
       // console.log(message)
+    },
+    async getThumImages () {
+      const {
+        data: { status, message }
+      } = await this.$http.get(`/api/getthumimages/${this.id}`)
+      if (status !== 0) return this.$Toast(message)
+      console.log(message)
+
+      // 把对象中的图片存进一个新的数组中
+      let arr = []
+      message.forEach(item => {
+        if (item.src) {
+          arr.push(item.src)
+        }
+      })
+      console.log(arr)
+      this.thums = arr
     },
     async getComments () {
       // 节流
@@ -65,10 +89,6 @@ export default {
       // console.log(this.hasFlag)
       // console.log(data)
     },
-    async getMore () {
-      // this.pageindex++
-      this.getComments()
-    },
     async postcomment (data) {
       const {
         data: { message, status }
@@ -80,6 +100,17 @@ export default {
         content: data,
         add_time: Date.now().formate
       })
+    },
+    async getMore () {
+      // this.pageindex++
+      this.getComments()
+    },
+    showImg (startPosition) {
+      this.$ImagePreview({
+        images: this.thums,
+        startPosition
+
+      })
     }
   },
   components: {
@@ -89,7 +120,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .newsinfo{
+.photoinfo{
     padding: 0 4px;
     hr{
       margin: 0 0 10px 0;
@@ -113,9 +144,14 @@ export default {
             color: salmon
         }
     }
-    // .newsinfo-content{
-    //     text-indent: 2em
-    // }
+    .imgs-thum{
+      display: flex;
+      justify-content: space-around;
+      img{
+        width:100px;
+        height: 100px;
+      }
+    }
     .more{
       width: 100%;
     }
