@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import {
+  Stepper,
+  Panel,
   ImagePreview,
   Lazyload,
   Tab, Tabs,
@@ -19,6 +21,8 @@ const options = {
 }
 
 Vue
+  .use(Stepper)
+  .use(Panel)
   .use(Lazyload, options)
   .use(Tab).use(Tabs)
   .use(Cell).use(CellGroup)

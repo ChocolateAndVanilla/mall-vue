@@ -1,11 +1,13 @@
 <template>
     <div class="home">
         <!-- <img src="./logo.png" alt=""> -->
-        <van-swipe :autoplay="3000" indicator-color="white" class="my-swipe">
-            <van-swipe-item class="item" v-for="item in lunbolist" :key="item.id">
-                <img :src="item.img" alt="">
-            </van-swipe-item>
-        </van-swipe>
+        <div style="width:375px;overflow:hidden">
+          <van-swipe :autoplay="3000" indicator-color="white" class="my-swipe">
+              <van-swipe-item class="item" v-for="item in lunbolist" :key="item.id">
+                  <img :src="item.img" alt="">
+              </van-swipe-item>
+          </van-swipe>
+        </div>
         <!-- <Grid></Grid> -->
         <van-grid :column-num="3" class="my-grid">
             <van-grid-item v-for="grid in grids" :key="grid.id" :text="grid.title" props="grid" :to="grid.to">
